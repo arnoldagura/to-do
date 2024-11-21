@@ -59,10 +59,8 @@ const initialState: TasksState = {
 };
 
 export const selectFilteredTasks = createSelector(
-  // Input selectors
   (state: RootState) => state.task.tasks,
   (state: RootState) => state.task.filters,
-  // Output selector: filters the tasks
   (tasks, filters) => {
     const filtered = tasks.filter((task) => {
       const matchesStatus =
@@ -72,8 +70,6 @@ export const selectFilteredTasks = createSelector(
         .includes(filters.title.toLowerCase());
       return matchesStatus && matchesTitle;
     });
-    console.log("filters", filters);
-    console.log("filtered", filtered);
     return filtered;
   }
 );
@@ -95,7 +91,6 @@ export const taskSlice = createSlice({
       state.tasks.push(action.payload);
     },
     updateTask: (state, action: PayloadAction<Task>) => {
-      console.log("action", action);
       const task = state.tasks.find((t) => t.id === action.payload.id);
       if (task) {
         task.title = action.payload.title;

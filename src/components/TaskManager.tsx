@@ -59,7 +59,6 @@ const TaskManager: React.FC = () => {
   };
 
   const onUpdateTask = (task: Task) => {
-    console.log("task", task);
     dispatch(updateTask(task));
     closeModal();
   };

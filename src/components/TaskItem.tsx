@@ -12,10 +12,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onUpdate, onDelete }) => {
     new Date(task.dueDate) < new Date() && task.status !== "Completed";
 
   function updateStatus(status: Status) {
-    console.log("status", status);
     const updatedTask = { ...task, status };
-
-    console.log("updatedTask", updatedTask);
 
     onUpdate(updatedTask);
   }
