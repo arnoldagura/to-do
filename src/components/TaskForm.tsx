@@ -3,14 +3,21 @@ import { Task } from "../store/task";
 import { v4 as uuidv4 } from "uuid";
 
 interface TaskFormProps {
-  onAddTask: (task: Task) => void;
+  initialTask: Task | null;
+  onSubmitTask: (task: Task) => void;
   onClose: () => void;
 }
 
-const AddTaskForm: React.FC<TaskFormProps> = ({ onAddTask, onClose }) => {
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [dueDate, setDueDate] = useState<string>("");
+const TaskForm: React.FC<TaskFormProps> = ({
+  initialTask,
+  onSubmitTask,
+  onClose,
+}) => {
+  const [title, setTitle] = useState<string>(initialTask?.title || "");
+  const [description, setDescription] = useState<string>(
+    initialTask?.description || ""
+  );
+  const [dueDate, setDueDate] = useState<string>(initialTask?.dueDate || "");
 
   const handleAddTask = () => {
     if (!title || !dueDate) {
@@ -19,16 +26,15 @@ const AddTaskForm: React.FC<TaskFormProps> = ({ onAddTask, onClose }) => {
     }
 
     const newTask: Task = {
-      id: uuidv4(),
+      id: initialTask?.id || uuidv4(),
       title,
       description,
-      status: "Pending",
+      status: initialTask?.status || "Pending",
       dueDate,
     };
 
-    onAddTask(newTask);
+    onSubmitTask(newTask);
 
-    // Reset fields after submitting
     setTitle("");
     setDescription("");
     setDueDate("");
@@ -36,7 +42,9 @@ const AddTaskForm: React.FC<TaskFormProps> = ({ onAddTask, onClose }) => {
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md max-w-lg mx-auto">
-      <h2 className="text-2xl font-semibold mb-4">Add New Task</h2>
+      <h2 className="text-2xl font-semibold mb-4">
+        {initialTask ? "Edit Task" : "Add New Task"}
+      </h2>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -94,17 +102,17 @@ const AddTaskForm: React.FC<TaskFormProps> = ({ onAddTask, onClose }) => {
 
         <div className="flex justify-between items-center">
           <button
-            type="submit"
-            className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600"
-          >
-            Add Task
-          </button>
-          <button
             type="button"
             onClick={onClose}
             className="text-sm text-gray-500 hover:text-gray-700 focus:outline-none"
           >
             Cancel
+          </button>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600"
+          >
+            {initialTask ? "Update Task" : "Add Task"}
           </button>
         </div>
       </form>
@@ -112,4 +120,4 @@ const AddTaskForm: React.FC<TaskFormProps> = ({ onAddTask, onClose }) => {
   );
 };
 
-export default AddTaskForm;
+export default TaskForm;
