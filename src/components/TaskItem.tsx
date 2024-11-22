@@ -73,6 +73,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
     ));
   return (
     <div
+      data-testid="task-item"
       className={`p-4 mb-4 rounded-lg shadow-md ${
         isOverdue ? "bg-red-100 border-red-500" : "bg-white border-gray-300"
       } border`}
