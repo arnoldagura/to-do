@@ -10,10 +10,13 @@ export interface Task {
 
 export interface TasksState {
   tasks: Task[];
-  filters: Filters;
+  allTasks: Task[];
+  page: number;
+  isLoading: boolean;
+  hasMore: boolean;
 }
 
-export interface Filters {
+export interface FiltersType {
   title: string;
   status: FilterStatus;
 }
